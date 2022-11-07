@@ -1,0 +1,13 @@
+.categoria a{
+    color: black;
+    text-decoration: none;
+}
+.categoria a:hover{
+    color: red;
+}
+.categoria span{
+    font-size: 13px;
+}
+.img-categoria{
+    max-width: 55px;
+}

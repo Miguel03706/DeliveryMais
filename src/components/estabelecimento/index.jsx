@@ -1,2 +1,2 @@
-export * from './estabelecimento.jsx';
-export { default } from './estabelecimento.jsx'
+export * from './estabelecimento';
+export { default } from './estabelecimento'
