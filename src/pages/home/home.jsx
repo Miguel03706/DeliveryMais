@@ -4,6 +4,7 @@ import Navbar from '../../components/navbar'
 import Categoria from '../../components/categoria'
 import Banner from '../../components/banner'
 import Estabelecimento from '../../components/estabelecimento'
+import Footer from '../../components/footer/'
 
 export default function home() {
   const cat = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -49,7 +50,7 @@ export default function home() {
 
           })
         }
-       
+       <Footer />
       </div>
   )
 }
