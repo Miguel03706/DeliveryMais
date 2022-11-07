@@ -36,7 +36,7 @@ export default function home() {
  {
           destaque.map(destaque => {
             return <div className="row mt-5 m-2">
-              <h4>TESTE</h4>
+              <h4>Destaque: entrega grátis: </h4>
               
               {
                 est.map(estabelecimento => {
