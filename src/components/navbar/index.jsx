@@ -1,7 +1,2 @@
-import React from 'react'
-
-export default function navbar() {
-  return (
-    <div>Menu</div>
-  )
-}
+export * from './navbar'
+export { default } from './navbar'
