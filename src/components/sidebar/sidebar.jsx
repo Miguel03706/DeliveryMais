@@ -1,18 +1,19 @@
-import React from 'react';
-import { useState } from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState } from 'react';
 import { Dock } from 'react-dock'
+import Produto from '../produto'
 import './styles.css'
 
 function sidebar() {
-    const show = true;
-    //const [show, setShow] = useState(true);
+    //const show = true;
+    const [show, setShow] = useState(true);
     const produtos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
     return (
         <Dock position="right"
             isVisible={show}
             onVisibleChange={(visible) => {
-                show = visible;
+                setShow(visible)
             }}>
 
             <div className="container-fluid h-100 pt-4 sidebar">
@@ -22,9 +23,10 @@ function sidebar() {
                     {
                         produtos.map(produtos => {
                             return (
-                                <>
-                                    <p>xxx</p>
-                                </>
+                                <Produto nome_produto="Nome do produto"
+                                    valor_total="80,00"
+                                    qtd="02" 
+                                    valor_unit="40,00"/>
                             )
                         })
                     }
