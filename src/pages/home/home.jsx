@@ -1,17 +1,65 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-lone-blocks */
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../../components/navbar'
 import Categoria from '../../components/categoria'
 import Banner from '../../components/banner'
 import Estabelecimento from '../../components/estabelecimento'
+import api from '../../services/api'
 import Footer from '../../components/footer/'
 
 export default function home() {
-  const cat = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const ban = [1, 2, 3, 4];
-  const destaque = [1, 2, 3];
-  const est = [1, 2, 3, 4];
 
+  const [categorias, setCategorias] = useState([]);
+  const [banners, setBanners] = useState([]);
+  const [grupos, setGrupos] = useState([]);
+  const [destaques, setDestaques] = useState([]);
+
+
+
+  useEffect(() => {
+    api.get('http://localhost:8082/v1/categorias?cod_cidade=' + localStorage.getItem('sessionCodCidade'))
+      .then(res => {
+        setCategorias(res.data)
+      }).catch(error => {
+        console.log(error);
+      })
+
+    api.get('http://localhost:8082/v1/banners?cod_cidade=' + localStorage.getItem('sessionCodCidade'))
+      .then(res => {
+        setBanners(res.data)
+      }).catch(error => {
+        console.log(error);
+      })
+
+    api.get('http://localhost:8082/v1/destaques?cod_cidade=' + localStorage.getItem('sessionCodCidade'))
+      .then(res => {
+
+        let gruposUnico = res.data.map(grupo => grupo.descricao);
+        gruposUnico = gruposUnico.filter((itemArray, i, arrayCompleto) => {
+          return arrayCompleto.indexOf(itemArray) === i;
+          //junta valores iguais dentro de um array
+        })
+        setGrupos(gruposUnico)
+
+      }).catch(error => {
+        console.log(error);
+      })
+
+    api.get('http://localhost:8082/v1/destaques?cod_cidade=' + localStorage.getItem('sessionCodCidade'))
+      .then(res => {
+        setDestaques(res.data)
+      }).catch(error => {
+        console.log(error);
+      })
+
+
+
+  }, [])
+
+  useEffect(() => {
+    console.log(grupos)
+  }, [grupos])
 
   return (
     <div className="container-fluid mt-page">
@@ -19,10 +67,13 @@ export default function home() {
 
       <div className="row justify-content-center text-center">
         {
-          cat.map(cat => {
+          categorias.map(categoria => {
             return <Categoria
-              key={cat}
-              url_img="https://img.freepik.com/fotos-gratis/hamburguer-com-hamburguer-de-carne-de-bovino-e-legumes-frescos-na-superficie-escura_2829-5883.jpg?w=740&t=st=1667824696~exp=1667825296~hmac=42582c3963c25d4c8c52cca1fdea75ff97e89781e997c94dcdccd09663cb6c5c" />
+              key={categoria.id_categoria}
+              url_img={categoria.foto}
+              descricao={categoria.categoria}
+              id_categoria={categoria.idCategoria}
+            />
           })
         }
 
@@ -30,28 +81,32 @@ export default function home() {
 
       <div className="row justify-content-center text-center mt-5 m-2">
         {
-          ban.map(ban => {
+          banners.map(banner => {
             return <Banner
-              key={ban}
-              url_img="https://img.freepik.com/vetores-gratis/fast-food-set_1284-17362.jpg?w=740&t=st=1667824735~exp=1667825335~hmac=03ae7791022d233f16bfe11f4b0d79a86cb6372b4b3d92f16b9ccbb5e4ac0ad0" />
+              key={banner.idBanner}
+              id_banner={banner.idBanner}
+              descricao={banner.descricao}
+              url_img={banner.foto}
+            />
           })
         }
       </div>
 
       {
-        destaque.map(destaque => {
-          return <div className="row mt-5 m-2" key={destaque}>
-            <h4>Destaque: entrega grátis: </h4>
+        grupos.map(grupo => {
+          return <div key={grupo} className="row mt-5 m-2" >
+            <h4>{grupo}</h4>
 
             {
-              est.map(estabelecimento => {
-                return <Estabelecimento
-                  key={estabelecimento}
-                  url_img="https://img.freepik.com/vetores-gratis/colecao-de-elementos-desenhados-a-mao-fast-food_125540-314.jpg?w=740&t=st=1667825444~exp=1667826044~hmac=d6042bf73b43aa4eb9ceb0e247c683f2998391b0633a7c152f75a99f705e83eb"
-                  nome="McDonald's"
-                  avaliacao="4"
-                  categoria="hamburguer"
-                />
+              destaques.map(destaque => {
+                return destaque.descricao === grupo ? <Estabelecimento
+                  id_estabelecimento={destaque.idEstabelecimento}
+                  key={destaque.idEstabelecimento}
+                  url_img={destaque.urlLogo}
+                  nome={destaque.nome}
+                  avaliacao={destaque.avaliacao}
+                  categoria={destaque.categoria}
+                /> : null
               })
             }
           </div>

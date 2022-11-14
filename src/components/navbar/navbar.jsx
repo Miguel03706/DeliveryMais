@@ -1,13 +1,22 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Logo from '../../assets/logo.png';
-import {Link} from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import './navbar.css';
 
 export default function navbar() {
 
-  function openSidebar(){ //Importante! lança um evento para toda a aplicação(ver sidebar)
+  const navigate = useNavigate();
+  const [busca, setBusca] = useState('');
+
+  function Buscar(e){
+    e.preventDefault();
+    navigate(`/busca?q=${busca}`)
+  }
+
+  function openSidebar() { //Importante! lança um evento para toda a aplicação(ver sidebar)
     const event = new CustomEvent('openSidebar');
     window.dispatchEvent(event);
   }
@@ -15,7 +24,7 @@ export default function navbar() {
   return (
     <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light ps-3 pe-3">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/home" Link><img className="mt-1" src={Logo} /></Link>
+        <Link className="navbar-brand" to="/"><img className="mt-1" src={Logo} /></Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
           aria-expanded="false" aria-label="Toggle navigation">
@@ -26,10 +35,10 @@ export default function navbar() {
 
           <div className="ms-auto me-auto mt-1">
             <div className="input-group">
-              <input type="search" className="form-control" placeholder="Procurar um restaurante..."
+              <input type="search" onChange={(e) => {setBusca(e.target.value)}} className="form-control" placeholder="Procurar um restaurante..."
                 aria-label="Search"
               />
-              <button className="btn btn-danger" type="button" id="button-addon2">
+              <button onClick={Buscar} className="btn btn-danger" type="button" id="button-addon2">
                 <i className="fas fa-search"></i> Buscar
               </button>
             </div>
@@ -65,7 +74,7 @@ export default function navbar() {
             </ul>
           </div>
 
-          <button onClick={openSidebar}className="btn btn-outline-danger me-3"> <i className="fas fa-shopping-bag"></i> Sacola</button>
+          <button onClick={openSidebar} className="btn btn-outline-danger me-3"> <i className="fas fa-shopping-bag"></i> Sacola</button>
 
         </div>
       </div>
