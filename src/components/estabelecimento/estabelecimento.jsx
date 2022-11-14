@@ -7,7 +7,7 @@ function Estabelecimento(props) {
     return (
         <div className="estabelecimento col-sm-6 col-md-4 col-lg-3 mb-3 p-2">
             <a href="#">
-                <div className="row"> 
+                <div className="row">
                     <div className="col-3 mt-2">
                         <img className="img-estabelecimento" src={props.url_img} alt="logotipo" /><br />
                     </div>
@@ -18,6 +18,7 @@ function Estabelecimento(props) {
                             <img src={Star} alt="avaliação" />
                             <span>{props.avaliacao} - {props.categoria}</span>
                         </div>
+                        {props.btnRemoverFvorito ? <button className="btn btn-outline-danger me-3 mt-2">Remover</button> : null}
                     </div>
                 </div>
             </a>

@@ -1,0 +1,10 @@
+.cardapio .classificacao{
+    font-size: 14px;
+    color: black;
+}
+
+.img-estab-cadapio{
+    object-fit: cover; /* vira o fundo da div em que está*/
+    width: 100vw;
+    height: 200px
+}

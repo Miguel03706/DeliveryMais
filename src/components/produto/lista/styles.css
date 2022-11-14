@@ -1,0 +1,11 @@
+.produto-lista:hover{
+    background-color: rgb(238, 238, 238) !important;
+}
+.produto-lista a:hover{
+    color: black;
+}
+.produto-lista .preco-antigo{
+    text-decoration: line-through;
+    color: #999;
+}
+

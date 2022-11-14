@@ -1,14 +1,20 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dock } from 'react-dock'
 import Produto from '../produto'
 import './styles.css'
 
 function sidebar() {
-    //const show = true;
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
+
     const produtos = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
+    useEffect(() => {
+        window.addEventListener('openSidebar', () => {
+            setShow(true)
+        });
+
+    }, []);
     return (
         <Dock position="right"
             isVisible={show}
@@ -23,10 +29,12 @@ function sidebar() {
                     {
                         produtos.map(produtos => {
                             return (
-                                <Produto nome_produto="Nome do produto"
+                                <Produto
+                                    key={produtos}
+                                    nome_produto="Nome do produto"
                                     valor_total="80,00"
-                                    qtd="02" 
-                                    valor_unit="40,00"/>
+                                    qtd="02"
+                                    valor_unit="40,00" />
                             )
                         })
                     }
@@ -43,7 +51,7 @@ function sidebar() {
                             <button className="btn btn-outline-success" type="button">Aplicar</button>
                         </div>
 
-                        <div class="input-group justify-content-end">
+                        <div className="input-group justify-content-end">
                             <span className="d-inline-block text-success">- R$ 0,00</span>
                         </div>
                     </div>
