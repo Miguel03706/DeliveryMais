@@ -60,7 +60,6 @@ export default function cadastro() {
             cep,
             cod_cidade: codCidade
         }).then(res => {
-
             if (res.status === 201) {
                 localStorage.setItem('sessionToken', res.data.token)
                 localStorage.setItem('sessionId', res.id_usuario)

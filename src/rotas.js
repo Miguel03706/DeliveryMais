@@ -10,6 +10,8 @@ import Sidebar from './components/sidebar'
 import Busca from './pages/busca'
 import Login from './pages/entrar'
 import Cadastro from './pages/cadastro'
+import TrocarEndereco from './pages/trocar-endereco'
+import PrivateRoute from './components/Private-route';
 
 export default function rotas() {
     return (
@@ -17,16 +19,18 @@ export default function rotas() {
             <Sidebar />
             <BrowserRouter>
                 <Routes>
-                    <Route exact path="/" element={<Home />} />
-                    <Route exact path="/busca" element={<Busca />} />
-                    <Route exact path="/pedidos" element={<Pedidos />} />
-                    <Route exact path="/favoritos" element={<Favoritos />} />
-                    <Route exact path="/perfil" element={<Perfil />} />
-                    <Route exact path="/enderecos" element={<Enderecos />} />
-                    <Route exact path="/pedidos" element={<Pedidos />} />
-                    <Route exact path="/cardapio/:id" element={<Cardapio />} />
+                    <Route exact path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
+                    <Route exact path="/busca" element={<PrivateRoute><Busca /></PrivateRoute>} />
+                    <Route exact path="/pedidos" element={<PrivateRoute><Pedidos /></PrivateRoute>} />
+                    <Route exact path="/favoritos" element={<PrivateRoute><Favoritos /></PrivateRoute>} />
+                    <Route exact path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>} />
+                    <Route exact path="/enderecos" element={<PrivateRoute><Enderecos /></PrivateRoute>} />
+                    <Route exact path="/pedidos" element={<PrivateRoute><Pedidos /></PrivateRoute>} />
+                    <Route exact path="/cardapio/:id" element={<PrivateRoute><Cardapio /></PrivateRoute>} />
+                    <Route exact path="/trocar-endereco" element={<PrivateRoute><TrocarEndereco /></PrivateRoute>} />
                     <Route exact path="/login" element={<Login />} />
                     <Route exact path="/cadastro" element={<Cadastro />} />
+
                 </Routes>
             </BrowserRouter>
         </>

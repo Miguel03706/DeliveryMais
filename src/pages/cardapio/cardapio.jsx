@@ -1,15 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../../components/navbar';
 import Star from '../../assets/star.png'
 import Produto from '../../components/produto/lista'
 import Footer from '../../components/footer'
 import api from '../../services/api'
+import ProdutoModal from '../../components/produto/modal'
+import FavVazio from '../../assets/favorito.png'
+import FavCheio from '../../assets/favorito2.png'
 import './styles.css'
+import { CartContext } from '../../contexts/cart';
 
 function cardapio() {
+
+    const { cart, idEstabelecimentoCart, setEntregaCart, setIdEstabelecimentoCart } = useContext(CartContext);
 
     const { id } = useParams();
     const [nome, setNome] = useState('');
@@ -23,11 +29,14 @@ function cardapio() {
     const [avaliacao, setAvaliacao] = useState(0);
     const [minimo, setMinimo] = useState(0);
     const [qtd, setQtd] = useState(0);
+    const [favorito, setFavorito] = useState(false);
+    const [idFavorito, setIdFavorito] = useState(0);
+    const [idProduto, setIdProduto] = useState(0);
 
     const [categorias, setCategorias] = useState([]);
     const [produtos, setProdutos] = useState([]);
 
-
+    const [isProdutoOpen, setIsProdutoOpen] = useState(false);
 
     function FiltrarEstabelecimento() {
         api.get(`http://localhost:8082/v1/estabelecimentos/${id}`).then(res => {
@@ -42,6 +51,8 @@ function cardapio() {
             setEntrega(res.data[0].vlTaxaEntrega)
             setMinimo(res.data[0].vlMinPedido)
             setQtd(res.data[0].qtdAvaliacao)
+            setFavorito(res.data[0].idFavorito > 0)
+            setIdFavorito(res.data[0].idFavorito)
         }).catch(error => {
             console.log(error)
         })
@@ -65,9 +76,51 @@ function cardapio() {
     }, [])
 
 
+    function openModalProduto(id_prod) {
+
+        if (cart.length > 0 && idEstabelecimentoCart != id && idEstabelecimentoCart > 0){
+            alert('Já existem produtos de outros estabelecimentos')
+            return
+        }
+
+        setIdProduto(id_prod)
+        setEntregaCart(entrega)
+        setIdEstabelecimentoCart(id)
+        setIsProdutoOpen(true)
+    }
+    function closeModalProduto() {
+        setIsProdutoOpen(false)
+    }
+
+    function Favoritar() {
+        api.post(`http://localhost:8082/v1/estabelecimentos/favoritos`, {
+            id_estabelecimento: id
+        }).then(res => {
+            setFavorito(true)
+            setIdFavorito(res.data.idFavorito)
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+
+    function RemoverFavorito() {
+        api.delete(`http://localhost:8082/v1/estabelecimentos/favoritos/${idFavorito}`)
+            .then(res => {
+                setFavorito(false)
+            }).catch(error => {
+
+            })
+    }
+
     return (
         <div className="container-fluid mt-page cardapio">
             <Navbar />
+            <ProdutoModal
+                isOpen={isProdutoOpen}
+                onRequestClose={closeModalProduto}
+                id_produto={idProduto}
+            />
+
             <div className="row col-lg-8 offset-lg-2">
                 <div className="col-12">
                     <img
@@ -77,7 +130,20 @@ function cardapio() {
                     />
                 </div>
                 <div className="col-12 mt-4">
-                    <h2>{nome}</h2>
+                    <div className="d-flex justify-content-between">
+                        <h2>{nome}</h2>
+                        <div className="favorito">
+                            {
+                                favorito ?
+                                    <img src={FavCheio} alt="Remover Favorito" onClick={RemoverFavorito} />
+                                    :
+                                    <img src={FavVazio} alt="Favoritar" onClick={Favoritar} />
+                            }
+                        </div>
+                    </div>
+
+
+
                     <span>{endereco} {complemento.length > 0 ? ' - ' + complemento : null} - {bairro} - {cidade} - {uf}</span>
                     <div className="classificacao">
                         <img src={Star} alt="Avaliação" />
@@ -106,7 +172,7 @@ function cardapio() {
                 {
                     categorias.map(categoria => {
                         return (
-                            <div className="row mt-5">
+                            <div className="row mt-5" key={categoria}>
                                 <div className="mb-3">
                                     <h5>{categoria}</h5>
                                 </div>
@@ -114,12 +180,14 @@ function cardapio() {
                                 {
                                     produtos.map(produto => {
                                         return produto.categoria === categoria ? <Produto
-                                            key={produtos}
+                                            key={produto.idProduto}
                                             nome_produto={produto.nome}
                                             descricao={produto.descricao}
                                             vl_produto={produto.vlProduto}
                                             vl_promocao={produto.vlPromocao}
                                             url_img={produto.urlFoto}
+                                            idProduto={produto.idProduto}
+                                            onClickProduto={openModalProduto}
                                         />
                                             : null
                                     })

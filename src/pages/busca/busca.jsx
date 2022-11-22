@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-lone-blocks */
 import React, { useState, useEffect } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom';
 import Navbar from '../../components/navbar'

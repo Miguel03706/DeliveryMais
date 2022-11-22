@@ -5,7 +5,7 @@ import './styles.css'
 function lista(props) {
     return (
         <div className="col-sm-6 mb-3 p-4 produto-lista">
-            <Link to="#">
+            <Link onClick={(e) => props.onClickProduto(props.idProduto)}>
 
                 <div className="row p-3 ps-0 border-bottom">
                     <div className="col-3">
@@ -19,7 +19,7 @@ function lista(props) {
                         <small className="d-block"><b> {props.descricao} </b></small>
                         {props.vl_promocao > 0 ?
                             <>
-                                <span class="badge bg-success d-inline-block mt-3">
+                                <span className="badge bg-success d-inline-block mt-3">
                                     {new Intl.NumberFormat('pr-BR', {
                                         style: 'currency',
                                         currency: 'BRL'

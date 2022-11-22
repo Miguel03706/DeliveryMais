@@ -19,10 +19,10 @@ function Estabelecimento(props) {
                             <img src={Star} alt="avaliação" />
                             <span>{props.avaliacao.toFixed(1)} - {props.categoria}</span>
                         </div>
-                        {props.btnRemoverFvorito ? <button className="btn btn-outline-danger me-3 mt-2">Remover</button> : null}
                     </div>
                 </div>
             </Link>
+            {props.btnRemoverFvorito ? <button className="btn btn-outline-danger me-3 mt-2" onClick={(e) => props.onClickRemoverFavorito(props.id_favorito)}>Remover</button> : null}
         </div>
     );
 }

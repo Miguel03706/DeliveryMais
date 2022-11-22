@@ -21,6 +21,16 @@ export default function navbar() {
     window.dispatchEvent(event);
   }
 
+  function Logout(){
+    localStorage.removeItem('sessionToken');
+    localStorage.removeItem('sessionId');
+    localStorage.removeItem('sessionEmail');
+    localStorage.removeItem('sessionCodCidade');
+    localStorage.removeItem('sessionCidade');
+    localStorage.removeItem('sessionUF');
+    navigate('/login')
+  }
+
   return (
     <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light ps-3 pe-3">
       <div className="container-fluid">
@@ -35,7 +45,7 @@ export default function navbar() {
 
           <div className="ms-auto me-auto mt-1">
             <div className="input-group">
-              <input type="search" onChange={(e) => {setBusca(e.target.value)}} className="form-control" placeholder="Procurar um restaurante..."
+              <input type="search" onChange={(e) => {setBusca(e.target.value)}} className="form-control" placeholder="Procurar restaurante"
                 aria-label="Search"
               />
               <button onClick={Buscar} className="btn btn-danger" type="button" id="button-addon2">
@@ -45,10 +55,10 @@ export default function navbar() {
           </div>
 
           <div className="mt-1">
-            <button className="btn btn-outline-danger me-3">
-              <i className="fas fa-map-marker-alt"></i>
-              Entrega : São paulo
-            </button>
+            <Link to="/trocar-endereco" className="btn btn-outline-danger me-3">
+              <i className="fas fa-map-marker-alt me-1"></i>
+              Entrega : {localStorage.getItem('sessionCidade')}
+            </Link>
             {
               /*
                   <button className="btn btn-outline-danger me-3">
@@ -70,7 +80,7 @@ export default function navbar() {
               <li> <Link to="/perfil" className="dropdown-item"> Perfil</Link>  </li>
               <li> <Link to="/enderecos" className="dropdown-item"> Endereços </Link> </li>
               <li> <hr className="dropdown-divider" /> </li>
-              <li> <Link to="/login" className="dropdown-item">Sair</Link> </li>
+              <li> <a href="#"  onClick={Logout} className="dropdown-item">Sair</a> </li>
             </ul>
           </div>
 

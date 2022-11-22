@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import Navbar from '../../components/navbar'
 import Pedido from '../../components/pedido'
+import api from '../../services/api'
+import './styles.css';
 
-function pedidos() {
-    const lista = [1, 2, 3, 4];
+function Pedidos() {
+
+
+    const [pedidos, setPedidos] = useState([]);
+
+
+    function ListarPedidos(){
+        api.get("http://localhost:8082/v1/pedidos")
+        .then(res => {
+            setPedidos(res.data)
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+
+    useEffect(() => {
+        ListarPedidos();
+    },[])
+
     return (
         <div className="container-fluid mt-page">
             <Navbar />
@@ -16,11 +35,18 @@ function pedidos() {
 
                 <div className="row mt-5">
                     {
-                      lista.map(pedidos => {
+                      pedidos.map(pedido => {
                         return (
                             <Pedido 
-                            key={pedidos}
-                            url_img="https://img.freepik.com/vetores-gratis/colecao-de-elementos-desenhados-a-mao-fast-food_125540-314.jpg?w=740&t=st=1667825444~exp=1667826044~hmac=d6042bf73b43aa4eb9ceb0e247c683f2998391b0633a7c152f75a99f705e83eb"
+                            key={pedido}
+                            url_img={pedido.urlLogo}
+                            avaliacao={pedido.avaliacao}
+                            qtd_item={pedido.qtdItem}
+                            id_pedido={pedido.idPedido}
+                            vl_total={pedido.vlTotal}
+                            dt_pedido={pedido.dtPedido}
+                            id_estabelecimento={pedido.idEstabelecimento}
+                            status={pedido.status}
                             />
                         )
                       })
@@ -32,4 +58,4 @@ function pedidos() {
     );
 }
 
-export default pedidos;
+export default Pedidos;

@@ -1,9 +1,33 @@
-import React from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState, useEffect }from 'react'
 import Navbar from '../../components/navbar'
 import Estabelecimento from '../../components/estabelecimento'
+import api from '../../services/api'
 
 export default function favoritos() {
-    const lista = [1, 2, 3, 4, 5];
+
+    const [favoritos, setFavoritos] = useState([])
+
+    function ListarFavoritos(){
+        api.get(`http://localhost:8082/v1/estabelecimentos/favoritos`).then(res => {
+            setFavoritos(res.data)
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+
+    useEffect(() => {
+        ListarFavoritos()
+    },[])
+
+    function DeleteFavorito(id){
+        api.delete(`http://localhost:8082/v1/estabelecimentos/favoritos/${id}`).then(res => {
+            ListarFavoritos()
+        }).catch(error => {
+            console.log(error)
+        })
+    }
 
     return (
         <div className="fluid mt-page">
@@ -13,17 +37,21 @@ export default function favoritos() {
 
 
                 <div className="row m-2">
-                    Pizza
+                    <h2>Meus Favoritos</h2>
                 </div>
 
                 <div className="row m-2">
                     {
-                        lista.map(estabelecimento => {
+                        favoritos.map(estabelecimento => {
                             return <Estabelecimento
-                                key={estabelecimento}
-                                url_img="https://img.freepik.com/vetores-gratis/colecao-de-elementos-desenhados-a-mao-fast-food_125540-314.jpg?w=740&t=st=1667825444~exp=1667826044~hmac=d6042bf73b43aa4eb9ceb0e247c683f2998391b0633a7c152f75a99f705e83eb"
-                                nome="McDonald's" avaliacao="4" categoria="hamburguer"
+                                key={estabelecimento.idEstabelecimento}
+                                url_img={estabelecimento.urlLogo}
+                                nome={estabelecimento.nome}
+                                avaliacao={estabelecimento.avaliacao}
+                                categoria={estabelecimento.categoria}
+                                id_favorito = {estabelecimento.idFavorito}
                                 btnRemoverFvorito
+                                onClickRemoverFavorito={DeleteFavorito}
                             />
                         })
                     }

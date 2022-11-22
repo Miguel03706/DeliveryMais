@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable no-lone-blocks */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Navbar from '../../components/navbar'
 import Categoria from '../../components/categoria'
 import Banner from '../../components/banner'
 import Estabelecimento from '../../components/estabelecimento'
 import api from '../../services/api'
 import Footer from '../../components/footer/'
+import { CartContext } from '../../contexts/cart'
 
 export default function home() {
 
@@ -14,7 +15,7 @@ export default function home() {
   const [banners, setBanners] = useState([]);
   const [grupos, setGrupos] = useState([]);
   const [destaques, setDestaques] = useState([]);
-
+  const { nome } = useContext(CartContext);
 
 
   useEffect(() => {
@@ -64,7 +65,6 @@ export default function home() {
   return (
     <div className="container-fluid mt-page">
       <Navbar />
-
       <div className="row justify-content-center text-center">
         {
           categorias.map(categoria => {
