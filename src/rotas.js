@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './pages/home';
+import Home from './pages/home'
 import Favoritos from './pages/favoritos'
 import Perfil from './pages/perfil'
 import Enderecos from './pages/enderecos'
@@ -11,13 +11,14 @@ import Busca from './pages/busca'
 import Login from './pages/entrar'
 import Cadastro from './pages/cadastro'
 import TrocarEndereco from './pages/trocar-endereco'
-import PrivateRoute from './components/Private-route';
+import Checkout from './pages/checkout'
+import PrivateRoute from './components/Private-route'
 
 export default function rotas() {
     return (
         <>
-            <Sidebar />
             <BrowserRouter>
+            <Sidebar />
                 <Routes>
                     <Route exact path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
                     <Route exact path="/busca" element={<PrivateRoute><Busca /></PrivateRoute>} />
@@ -28,6 +29,7 @@ export default function rotas() {
                     <Route exact path="/pedidos" element={<PrivateRoute><Pedidos /></PrivateRoute>} />
                     <Route exact path="/cardapio/:id" element={<PrivateRoute><Cardapio /></PrivateRoute>} />
                     <Route exact path="/trocar-endereco" element={<PrivateRoute><TrocarEndereco /></PrivateRoute>} />
+                    <Route exact path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
                     <Route exact path="/login" element={<Login />} />
                     <Route exact path="/cadastro" element={<Cadastro />} />
 

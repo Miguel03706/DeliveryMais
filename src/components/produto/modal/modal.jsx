@@ -48,8 +48,10 @@ export default function modal(props) {
       idCarrinho: uuidv4(),
       idProduto: idProduto,
       nome,
+      descricao: nome,
       qtd,
       vlUnit: vlPromocao > 0 ? vlPromocao : vlProduto,
+      vlTotal: (vlPromocao > 0 ? vlPromocao : vlProduto) * qtd,
       urlFoto: urlFoto,
       detalhes: []
     }

@@ -5,14 +5,20 @@ import Produto from '../produto'
 import { CartContext } from '../../contexts/cart';
 import Sacola from '../../assets/bag.png'
 import './styles.css'
+import { useNavigate } from 'react-router-dom';
 
 function sidebar() {
+
     const [show, setShow] = useState(false);
+    const navigate = useNavigate();
 
     const { cart, subTotalCart, descontoCart, entregaCart, totalCart, RemoveItemCard,
         ValidarCupom, msgCart, cupomCart, setCupomCart } = useContext(CartContext);
 
-
+    function FinalizarPedido() {
+        setShow(false)
+        navigate('/checkout')
+    }
 
     useEffect(() => {
         window.addEventListener('openSidebar', () => {
@@ -71,7 +77,7 @@ function sidebar() {
                             </div>
 
                             <div className="input-group justify-content-end">
-                                {msgCart.length > 0 ? <small className="text-danger">{msgCart}</small>: null}
+                                {msgCart.length > 0 ? <small className="text-danger">{msgCart}</small> : null}
                                 <span className="d-inline-block text-success">
                                     -  {new Intl.NumberFormat('pr-BR', {
                                         style: 'currency',
@@ -101,7 +107,7 @@ function sidebar() {
                             </h3>
                         </div>
 
-                        <button className="btn btn-lg btn-danger roubded-0 align-itens-center btn-pedido">Finalizar</button>
+                        <button onClick={FinalizarPedido} className="btn btn-lg btn-danger roubded-0 align-itens-center btn-pedido">Finalizar</button>
 
                     </div>
                 </div>

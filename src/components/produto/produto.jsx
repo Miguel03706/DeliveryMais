@@ -34,9 +34,15 @@ function produto(props) {
                         }).format(props.valor_unit)}
                     </small>
 
-                    <button onClick={(e) => props.onClickRemover(props.idCarrinho)} className="btn btn-outline-danger mt-3"> Remover </button>
+                    {
+                        props.onClickRemover ?
+                            <button onClick={(e) => props.onClickRemover(props.idCarrinho)} className="btn btn-outline-danger mt-3"> Remover </button>
+                            : null
+                    }
                 </div>
+                <div className="row">
 
+                </div>
 
             </div>
         </div>

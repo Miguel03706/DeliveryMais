@@ -15,17 +15,37 @@ function CartProvider(props) {
     const [cupomCart, setCupomCart] = useState('')
     const [msgCart, setMsgCart] = useState('')
 
+    function SalvarCart(produtos) {
+        if (produtos.length > 0) {
+            localStorage.setItem('sessionCart', JSON.stringify({
+                cupom: cupomCart,
+                idCupom: idCupomCart,
+                idEstabelecimento: idEstabelecimentoCart,
+                entregaCart: entregaCart,
+                itens: produtos
+            }))
+        } else{
+            localStorage.removeItem('sessionCart')
+        }
+    }
+
     function AddItemCart(item) {
         setCart([...cart, item])
+        SalvarCart([...cart, item])
     }
+
     function RemoveItemCard(id) {
         const novoCart = cart.filter((item, index, arr) => {
             return item.idCarrinho != id
         });
         setCart(novoCart)
+        SalvarCart(novoCart)
     }
+
     function ValidarCupom() {
         setMsgCart('')
+        SalvarCart(cart)
+
         api.get(`http://localhost:8082/v1/cupons/validacao`, {
             params: {
                 cod_cupom: cupomCart,
@@ -50,6 +70,26 @@ function CartProvider(props) {
             setMsgCart('Cupom inválido')
         })
     }
+    useEffect(() => {
+        const dados = localStorage.getItem('sessionCart')
+        if (dados){
+            setCart(JSON.parse(dados).itens)
+            setCupomCart(JSON.parse(dados).cupom)
+            setIdEstabelecimentoCart(JSON.parse(dados).idEstabelecimento)
+            setEntregaCart(JSON.parse(dados).entregaCart)
+            setIdCupomCart(JSON.parse(dados).idCupom)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (cupomCart.length > 0) {
+            ValidarCupom()
+        }
+    }, [subTotalCart])
+
+    useEffect(() => {
+        setMsgCart('')
+    }, [cupomCart])
 
     useEffect(() => {
         let soma = cart.reduce((a, b) => a + (b.vlUnit * b.qtd), 0)
