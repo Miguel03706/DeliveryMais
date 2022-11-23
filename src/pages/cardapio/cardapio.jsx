@@ -142,8 +142,6 @@ function cardapio() {
                         </div>
                     </div>
 
-
-
                     <span>{endereco} {complemento.length > 0 ? ' - ' + complemento : null} - {bairro} - {cidade} - {uf}</span>
                     <div className="classificacao">
                         <img src={Star} alt="Avaliação" />
@@ -167,8 +165,6 @@ function cardapio() {
                         </span>
                     </div>
                 </div>
-
-
                 {
                     categorias.map(categoria => {
                         return (
@@ -176,7 +172,6 @@ function cardapio() {
                                 <div className="mb-3">
                                     <h5>{categoria}</h5>
                                 </div>
-
                                 {
                                     produtos.map(produto => {
                                         return produto.categoria === categoria ? <Produto
@@ -192,12 +187,10 @@ function cardapio() {
                                             : null
                                     })
                                 }
-
                             </div>
                         );
                     })
                 }
-
             </div>
             <Footer />
         </div>

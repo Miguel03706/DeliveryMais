@@ -8,7 +8,7 @@ import ProdutoItemRadio from '../produto-item-radio'
 import api from '../../../services/api'
 import './styles.css'
 import { CartContext } from '../../../contexts/cart'
-import {v4 as uuidv4} from "uuid"
+import { v4 as uuidv4 } from "uuid"
 
 export default function modal(props) {
 
@@ -20,21 +20,8 @@ export default function modal(props) {
   const [vlProduto, setVlProduto] = useState(0)
   const [vlPromocao, setVlPromocao] = useState(0)
   const [qtd, setQtd] = useState(1)
-
-  function ListarPedidos() {
-    api.get(`http://localhost:8082/v1/produtos/${props.id_produto}`).then(res => {
-      setIdProduto(res.idProduto)
-      setNome(res.data[0].nome)
-      setDescricao(res.data[0].descricao)
-      setVlProduto(res.data[0].vlProduto)
-      setVlPromocao(res.data[0].vlPromocao)
-      setUrlFoto(res.data[0].urlFoto)
-
-
-    }).catch(error => {
-      console.log(error)
-    })
-  }
+  const [opcoes, setOpcoes] = useState([])
+  const [grupos, setGrupos] = useState([])
 
   function ClickMais() {
     setQtd(qtd + 1)
@@ -59,9 +46,51 @@ export default function modal(props) {
     props.onRequestClose();
   }
 
+
   useEffect(() => {
-    ListarPedidos()
-    setQtd(1)
+    if (props.idProduto <= 0) {
+      return
+    }
+
+    api.get(`http://localhost:8082/v1/produtos/${props.id_produto}`)
+      .then(res => {
+        setIdProduto(res.idProduto)
+        setNome(res.data[0].nome)
+        setDescricao(res.data[0].descricao)
+        setVlProduto(res.data[0].vlProduto)
+        setVlPromocao(res.data[0].vlPromocao)
+        setUrlFoto(res.data[0].urlFoto)
+        setQtd(1)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+
+    api.get(`http://localhost:8082/v1/cardapios/opcoes/1`)
+      .then(res => {
+        setOpcoes(res.data);
+
+        let gruposUnico = res.data.map(g => {
+          return {
+            idOpcao: g.idOpcao,
+            idProduto: g.idProduto,
+            descricao: g.descricao,
+            indObrigatorio: g.indObrigatorio,
+            qtdMaxEscolha: g.qtdMaxEscolha,
+            indAtivo: g.indAtivo,
+            ordem: g.ordem,
+            selecao: []
+          }
+        })
+
+        gruposUnico = gruposUnico.filter((item, index, arr) => {
+          return arr.findIndex((t) => {
+            return t.idOpcao === item.idOpcao
+          }) === index;
+        })
+        setGrupos(gruposUnico)
+      })
+      .catch(error => console.log(error))
   }, [props.id_produto])
 
   return (
@@ -113,8 +142,15 @@ export default function modal(props) {
           </div>
 
           <div className="col-12 mt-4">
-            <ProdutoItemRadio titulo="Escolha a borda" obrigatorio />
-            <ProdutoItemCheckBox titulo="Turbine sua pizza" />
+            {
+              grupos.map(grupo =>{
+                  return grupo.qtdMaxEscolha == 1 ?
+                  <ProdutoItemRadio titulo={grupo.descricao} obrigatorio />
+                  :
+                  <ProdutoItemCheckBox titulo={grupo.descricao} />
+              })
+            }
+
           </div>
         </div>
 
@@ -132,7 +168,7 @@ export default function modal(props) {
                   currency: 'BRL'
                 }).format(vlPromocao > 0 ? vlPromocao * qtd : vlProduto * qtd)}
                 )
-                </button>
+              </button>
             </div>
           </div>
         </div>
