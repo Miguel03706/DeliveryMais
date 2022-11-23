@@ -12,12 +12,35 @@ export default function ProdutoItemRadio(props) {
           : null
         }
       </div>
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item">
-            <input className="form-check-input ms-2" type="radio" name="flexRadioDefault" id="flexRadioDefault" />
-            <label className="ms-2" htmlFor="flexRadioDefault"> Borda fina</label>
-          </li>
-        </ul>
-    </div>
+      <ul className="list-group list-group-flush ">
+        {
+          props.opcoes.map(opcao => {
+            return <li className="list-group-item d-flex justify-content-between" key={opcao.idItem}> 
+              <div>
+                <input className="form-check-input ms-2" type="radio"
+                  name={`flexRadioDefault${opcao.idOpcao}`}
+                  id={`flexRadioDefault${opcao.idItem}`}
+                />
+                <label className="form-check-label ms-2"
+                  htmlFor={`flexRadioDefault${opcao.idItem}`}>
+                  {opcao.nomeItem}
+                </label>
+              </div>
+              <div>
+                {opcao.vlItem > 0 ?
+                  <span className="text-danger">
+                    {new Intl.NumberFormat('pr-BR', {
+                      style: 'currency',
+                    currency: 'BRL'
+                  }).format(opcao.vlItem)}
+                  </span>
+                  : null}
+              </div>
+
+            </li>
+          })
+        }
+      </ul>
+    </div >
   )
 }

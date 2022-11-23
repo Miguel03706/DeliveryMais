@@ -13,15 +13,26 @@ export default function ProdutoItemCheckBox(props) {
                 } */}
             </div>
             <ul className="list-group list-group-flush">
-                <li className="list-group-item d-flex justify-content-between">
-                    <div>
-                    <input className="form-check-input ms-2" type="checkbox" value="" id="flexCheckDefault1" />
-                    <label className="form-check-label ms-2" htmlFor="flexCheckDefault">Bacon</label>
-                    </div>
-                    <div>
-                        <span className="text-danger">+ R$3,00</span>
-                    </div>
-                </li>
+                {
+                    props.opcoes.map(opcao => {
+                        return <li className="list-group-item d-flex justify-content-between" key={opcao.idItem}>
+                            <div>
+                                <input className="form-check-input ms-2" type="checkbox" value="" id={`flexCheckDefault1${opcao.idItem}`} />
+                                <label className="form-check-label ms-2" htmlFor={`flexCheckDefault1${opcao.idItem}`}>{opcao.nomeItem}</label>
+                            </div>
+                            <div>
+                                {opcao.vlItem > 0 ?
+                                    <span className="text-danger">
+                                        {new Intl.NumberFormat('pr-BR', {
+                                            style: 'currency',
+                                            currency: 'BRL'
+                                        }).format(opcao.vlItem)}
+                                    </span>
+                                    : null}
+                            </div>
+                        </li>
+                    })
+                }
             </ul>
         </div>
     )

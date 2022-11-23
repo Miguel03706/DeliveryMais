@@ -143,11 +143,24 @@ export default function modal(props) {
 
           <div className="col-12 mt-4">
             {
-              grupos.map(grupo =>{
-                  return grupo.qtdMaxEscolha == 1 ?
-                  <ProdutoItemRadio titulo={grupo.descricao} obrigatorio />
+              grupos.map(grupo => {
+                let op = opcoes.filter((item, i, array) => {
+                  return item.idOpcao == grupo.idOpcao
+                });
+
+                return grupo.qtdMaxEscolha == 1 ?
+                  <ProdutoItemRadio
+                    key={grupo.idOpcao}
+                    titulo={grupo.descricao}
+                    obrigatorio={grupo.indObrigatorio == 'S' ? true : false}
+                    opcoes={op}
+                  />
                   :
-                  <ProdutoItemCheckBox titulo={grupo.descricao} />
+                  <ProdutoItemCheckBox
+                    key={grupo.idOpcao}
+                    titulo={grupo.descricao}
+                    opcoes={op}
+                  />
               })
             }
 
