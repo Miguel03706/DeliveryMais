@@ -135,13 +135,14 @@ export default function modal(props) {
 
     api.get(`http://localhost:8082/v1/produtos/${props.id_produto}`)
       .then(res => {
-        setIdProduto(res.idProduto)
+        setIdProduto(res.data[0].idProduto)
         setNome(res.data[0].nome)
         setDescricao(res.data[0].descricao)
         setVlProduto(res.data[0].vlProduto)
         setVlPromocao(res.data[0].vlPromocao)
         setUrlFoto(res.data[0].urlFoto)
         setQtd(1)
+        console.log(res.data)
       })
       .catch(error => {
         console.log(error)

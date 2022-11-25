@@ -43,7 +43,21 @@ function checkout() {
                 navigate('/pedidos')
             } else {
                 alert('erro ao enviar pedido')
-                navigate('/pedidos')
+                console.log({
+                    idEstabelecimento: idEstabelecimentoCart,
+                    idCupom: idCupomCart ?? 0,
+                    vlTaxaEntrega: entregaCart,
+                    vlTotal: totalCart,
+                    endereco,
+                    complemento,
+                    bairro,
+                    cidade,
+                    uf,
+                    cep,
+                    codCidade: codCidade,
+                    itens: cart,
+                })
+                // navigate('/pedidos')
             }
         })
     }
