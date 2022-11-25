@@ -133,7 +133,7 @@ export default function modal(props) {
       return
     }
 
-    api.get(`http://localhost:8082/v1/produtos/${props.id_produto}`)
+    api.get(`/v1/produtos/${props.id_produto}`)
       .then(res => {
         setIdProduto(res.data[0].idProduto)
         setNome(res.data[0].nome)
@@ -148,7 +148,7 @@ export default function modal(props) {
         console.log(error)
       })
 
-    api.get(`http://localhost:8082/v1/cardapios/opcoes/${props.id_produto}`)
+    api.get(`/v1/cardapios/opcoes/${props.id_produto}`)
       .then(res => {
         setOpcoes(res.data);
 

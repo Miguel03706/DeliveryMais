@@ -28,7 +28,7 @@ export default function busca() {
 
         pg = reset ? 1 : pagina + 1;
 
-        api.get('http://localhost:8082/v1/estabelecimentos', {
+        api.get('/v1/estabelecimentos', {
             params: {
                 cod_cidade: localStorage.getItem('sessionCodCidade'),
                 nome: busca,

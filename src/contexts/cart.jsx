@@ -46,7 +46,7 @@ function CartProvider(props) {
         setMsgCart('')
         SalvarCart(cart)
 
-        api.get(`http://localhost:8082/v1/cupons/validacao`, {
+        api.get(`/v1/cupons/validacao`, {
             params: {
                 cod_cupom: cupomCart,
                 valor: Math.trunc(subTotalCart * 100),

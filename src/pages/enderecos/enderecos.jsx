@@ -15,7 +15,7 @@ function enderecos() {
     const [dadosEndereco, setDadosEnderecos] = useState([])
 
     function ListarEnderecos() {
-        api.get(`http://localhost:8082/v1/usuarios/enderecos`)
+        api.get(`/v1/usuarios/enderecos`)
             .then(res => {
                 setEnderecos(res.data)
             }).catch(error => {
@@ -29,7 +29,7 @@ function enderecos() {
 
     function openModalEndereco(id) {
         if (id > 0) {
-            api.get(`http://localhost:8082/v1/usuarios/enderecos/${id}`)
+            api.get(`/v1/usuarios/enderecos/${id}`)
                 .then(res => {
                     setDadosEnderecos(res.data[0])
                 }).catch(error => {
@@ -56,7 +56,7 @@ function enderecos() {
                 {
                     label: 'Sim',
                     onClick: () => {
-                        api.delete(`http://localhost:8082/v1/usuarios/enderecos/${id}`)
+                        api.delete(`/v1/usuarios/enderecos/${id}`)
                             .then(res => ListarEnderecos())
                             .catch(error => console.log(error))
                     }
@@ -70,7 +70,7 @@ function enderecos() {
     }
 
     function EnderecoPadrao(id){
-        api.patch(`http://localhost:8082/v1/usuarios/enderecos/padrao/${id}`)
+        api.patch(`/v1/usuarios/enderecos/padrao/${id}`)
         .then(res => ListarEnderecos())
         .catch(error => console.log(error))
 

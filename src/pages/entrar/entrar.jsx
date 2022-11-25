@@ -21,7 +21,7 @@ export default function entrar() {
         e.preventDefault();
         setSucesso('');
         setLoading(true)
-        api.post('http://localhost:8082/v1/usuarios/login', {
+        api.post('/v1/usuarios/login', {
             email: email,
             senha: SaltPassword(senha)
         }).then(res => {

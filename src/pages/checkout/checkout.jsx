@@ -22,7 +22,7 @@ function checkout() {
     const [cep, setCep] = useState('')
 
     function FinalizarPedido() {
-        api.post('http://localhost:8082/v1/pedidos', {
+        api.post('/v1/pedidos', {
             idEstabelecimento: idEstabelecimentoCart,
             idCupom: idCupomCart ?? 0,
             vlTaxaEntrega: entregaCart,
@@ -77,7 +77,7 @@ function checkout() {
             navigate('/')
             return
         }
-        api.get(`http://localhost:8082/v1/usuarios/enderecos/`, {
+        api.get(`/v1/usuarios/enderecos/`, {
             params: {
                 codCidade: localStorage.getItem('sessionCodCidade')
             }

@@ -21,7 +21,7 @@ function Pedido(props) {
     }
 
     function Avaliar(avaliacao) {
-        api.patch(`http://localhost:8082/v1/pedidos/avaliacao/${props.id_pedido}`, {
+        api.patch(`/v1/pedidos/avaliacao/${props.id_pedido}`, {
             avaliacao
         })
             .then(res => {

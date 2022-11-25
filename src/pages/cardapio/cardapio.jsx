@@ -39,7 +39,7 @@ function cardapio() {
     const [isProdutoOpen, setIsProdutoOpen] = useState(false);
     
     useEffect(() => {
-        api.get(`http://localhost:8082/v1/estabelecimentos/${id}`).then(res => {
+        api.get(`/v1/estabelecimentos/${id}`).then(res => {
             setNome(res.data[0].nome)
             setEndereco(res.data[0].endereco)
             setComplemento(res.data[0].complemento)
@@ -57,7 +57,7 @@ function cardapio() {
             console.log(error)
         })
 
-        api.get(`http://localhost:8082/v1/cardapios/${id}`).then(res => {
+        api.get(`/v1/cardapios/${id}`).then(res => {
             let categoriasUnica = []
             categoriasUnica = res.data.map(item => item.categoria);
 
@@ -90,7 +90,7 @@ function cardapio() {
     }
 
     function Favoritar() {
-        api.post(`http://localhost:8082/v1/estabelecimentos/favoritos`, {
+        api.post(`/v1/estabelecimentos/favoritos`, {
             id_estabelecimento: id
         }).then(res => {
             setFavorito(true)
@@ -101,7 +101,7 @@ function cardapio() {
     }
 
     function RemoverFavorito() {
-        api.delete(`http://localhost:8082/v1/estabelecimentos/favoritos/${idFavorito}`)
+        api.delete(`/v1/estabelecimentos/favoritos/${idFavorito}`)
             .then(res => {
                 setFavorito(false)
             }).catch(error => {

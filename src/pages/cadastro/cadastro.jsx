@@ -48,7 +48,7 @@ export default function cadastro() {
 
         setLoading(true)
 
-        api.post('http://localhost:8082/v1/usuarios/registro', {
+        api.post('/v1/usuarios/registro', {
             nome,
             email,
             senha: senha.length > 0 ? SaltPassword(senha) : '',
@@ -84,7 +84,7 @@ export default function cadastro() {
     }
 
     useEffect(() => {
-        api.get('http://localhost:8082/v1/cidades').then(res => {
+        api.get('/v1/cidades').then(res => {
             setCidades(res.data)
         }).catch(error => {
             console.log(error);

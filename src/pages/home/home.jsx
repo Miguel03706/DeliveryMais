@@ -19,21 +19,21 @@ export default function home() {
 
 
   useEffect(() => {
-    api.get('http://localhost:8082/v1/categorias?cod_cidade=' + localStorage.getItem('sessionCodCidade'))
+    api.get('/v1/categorias?cod_cidade=' + localStorage.getItem('sessionCodCidade'))
       .then(res => {
         setCategorias(res.data)
       }).catch(error => {
         console.log(error);
       })
 
-    api.get('http://localhost:8082/v1/banners?cod_cidade=' + localStorage.getItem('sessionCodCidade'))
+    api.get('/v1/banners?cod_cidade=' + localStorage.getItem('sessionCodCidade'))
       .then(res => {
         setBanners(res.data)
       }).catch(error => {
         console.log(error);
       })
 
-    api.get('http://localhost:8082/v1/destaques?cod_cidade=' + localStorage.getItem('sessionCodCidade'))
+    api.get('/v1/destaques?cod_cidade=' + localStorage.getItem('sessionCodCidade'))
       .then(res => {
 
         let gruposUnico = res.data.map(grupo => grupo.descricao);
@@ -47,7 +47,7 @@ export default function home() {
         console.log(error);
       })
 
-    api.get('http://localhost:8082/v1/destaques?cod_cidade=' + localStorage.getItem('sessionCodCidade'))
+    api.get('/v1/destaques?cod_cidade=' + localStorage.getItem('sessionCodCidade'))
       .then(res => {
         setDestaques(res.data)
       }).catch(error => {

@@ -12,7 +12,7 @@ function trocarEnderecos() {
     const navigate = useNavigate();
 
     function ListarEnderecos() {
-        api.get(`http://localhost:8082/v1/usuarios/enderecos`)
+        api.get(`/v1/usuarios/enderecos`)
             .then(res => {
                 setEnderecos(res.data)
             }).catch(error => {

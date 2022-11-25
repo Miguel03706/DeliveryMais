@@ -10,7 +10,7 @@ export default function favoritos() {
     const [favoritos, setFavoritos] = useState([])
 
     function ListarFavoritos(){
-        api.get(`http://localhost:8082/v1/estabelecimentos/favoritos`).then(res => {
+        api.get(`/v1/estabelecimentos/favoritos`).then(res => {
             setFavoritos(res.data)
         }).catch(error => {
             console.log(error)
@@ -22,7 +22,7 @@ export default function favoritos() {
     },[])
 
     function DeleteFavorito(id){
-        api.delete(`http://localhost:8082/v1/estabelecimentos/favoritos/${id}`).then(res => {
+        api.delete(`/v1/estabelecimentos/favoritos/${id}`).then(res => {
             ListarFavoritos()
         }).catch(error => {
             console.log(error)

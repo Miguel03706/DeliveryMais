@@ -33,7 +33,7 @@ export default function EnderecoModal(props) {
         setMensagem('')
 
         if (idEndereco > 0) {
-            api.patch(`http://localhost:8082/v1/usuarios/endereco/${idEndereco}`, {
+            api.patch(`''/v1/usuarios/endereco/${idEndereco}`, {
                 endereco,
                 complemento,
                 bairro,
@@ -53,7 +53,7 @@ export default function EnderecoModal(props) {
                     }
                 })
         } else {
-            api.post(`http://localhost:8082/v1/usuarios/endereco/${idEndereco}`, {
+            api.post(`/v1/usuarios/endereco/${idEndereco}`, {
                 endereco,
                 complemento,
                 bairro,
@@ -76,7 +76,7 @@ export default function EnderecoModal(props) {
     }
 
     function ListarCidades() {
-        api.get('http://localhost:8082/v1/cidades').then(res => {
+        api.get('/v1/cidades').then(res => {
             setCidades(res.data)
         }).catch(error => {
             console.log(error)

@@ -23,7 +23,7 @@ export default function perfil() {
     }
 
     function SalvarDados() {
-        api.patch('http://localhost:8082/v1/usuarios', {
+        api.patch('/v1/usuarios', {
             nome,
             email
         })
@@ -39,7 +39,7 @@ export default function perfil() {
     }
 
     useEffect(() => {
-        api.get(`http://localhost:8082/v1/usuarios/${localStorage.getItem('sessionId')}`)
+        api.get(`/v1/usuarios/${localStorage.getItem('sessionId')}`)
             .then(res => {
                 setNome(res.data[0].nome)
                 setEmail(res.data[0].email)

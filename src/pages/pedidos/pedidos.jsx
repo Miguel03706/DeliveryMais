@@ -7,7 +7,7 @@ function Pedidos() {
     const [pedidos, setPedidos] = useState([]);
 
     function ListarPedidos(){
-        api.get("http://localhost:8082/v1/pedidos")
+        api.get("/v1/pedidos")
         .then(res => {
             setPedidos(res.data)
         }).catch(error => {
