@@ -20,6 +20,13 @@ export default function ProdutoItemRadio(props) {
                 <input className="form-check-input ms-2" type="radio"
                   name={`flexRadioDefault${opcao.idOpcao}`}
                   id={`flexRadioDefault${opcao.idItem}`}
+                  onClick={(e) => props.onClickItem({
+                    idOpcao: opcao.idOpcao,
+                    nome: opcao.nomeItem,
+                    idItem: opcao.idItem,
+                    vlItem: opcao.vlItem,
+                    ordem: opcao.ordem
+                  })}
                 />
                 <label className="form-check-label ms-2"
                   htmlFor={`flexRadioDefault${opcao.idItem}`}>

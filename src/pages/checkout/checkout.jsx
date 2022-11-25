@@ -23,7 +23,7 @@ function checkout() {
     const [cep, setCep] = useState('')
 
     function FinalizarPedido() {
-        api.get('http://localhost:8082/v1/pedidos', {
+        api.post('http://localhost:8082/v1/pedidos', {
             idEstabelecimento: idEstabelecimentoCart,
             idCupom: idCupomCart ?? 0,
             vlTaxaEntrega: entregaCart,
@@ -43,10 +43,8 @@ function checkout() {
                 setIdCupomCart(0)
                 navigate('/pedidos')
             } else {
-                // alert('erro ao enviar pedido')
-                alert('Pedido finalizado')
+                alert('erro ao enviar pedido')
                 navigate('/pedidos')
-
             }
         })
     }
@@ -66,12 +64,11 @@ function checkout() {
             navigate('/')
             return
         }
-        api.get('http://localhost:8082/v1/usuarios/enderecos', {
+        api.get(`http://localhost:8082/v1/usuarios/enderecos/`, {
             params: {
                 codCidade: localStorage.getItem('sessionCodCidade')
             }
         }).then(res => setEnderecos(res.data)).catch(error => console.log(error))
-
     }
 
     useEffect(() => {
@@ -105,6 +102,7 @@ function checkout() {
                                         qtd={produtos.qtd}
                                         valor_unit={produtos.vlUnit}
                                         idCarrinho={produtos.idCarrinho}
+                                        detalhes={produtos.detalhes}
                                     />
                                 </div>
                             )
@@ -161,10 +159,9 @@ function checkout() {
                     <h4>Endereço de entrega</h4>
                     <div className="row">
                         <ul className="list-group list-group-flush">
-                            {/*
+                            {
                                 enderecos.map(endereco => {
-                                    return
-                                    <li className="list-group-item p-3" key={endereco.idEndereco}>
+                                    return <li className="list-group-item p-3" key={endereco.idEndereco}>
                                         <input className="form-check-input ms-2" type="radio"
                                             name="flexRadioDefault"
                                             id={`flexRadioDefault${endereco.idEndereco}`}
@@ -176,12 +173,11 @@ function checkout() {
                                         </label>
                                     </li>
                                 })
-                            */}
+                            }
                         </ul>
                     </div>
                     <div className="row mb-5">
-                        {/* diseblad do botão = {endereco.length == 0} */}
-                        <button onClick={FinalizarPedido} className="btn btn-lg btn-danger mt-4">Finalizar</button>
+                        <button onClick={FinalizarPedido} disabled={endereco.length == 0}className="btn btn-lg btn-danger mt-4">Finalizar</button>
                     </div>
                 </div>
             </div>

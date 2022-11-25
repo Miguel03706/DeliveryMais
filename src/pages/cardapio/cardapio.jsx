@@ -37,8 +37,8 @@ function cardapio() {
     const [produtos, setProdutos] = useState([]);
 
     const [isProdutoOpen, setIsProdutoOpen] = useState(false);
-
-    function FiltrarEstabelecimento() {
+    
+    useEffect(() => {
         api.get(`http://localhost:8082/v1/estabelecimentos/${id}`).then(res => {
             setNome(res.data[0].nome)
             setEndereco(res.data[0].endereco)
@@ -58,21 +58,18 @@ function cardapio() {
         })
 
         api.get(`http://localhost:8082/v1/cardapios/${id}`).then(res => {
-            let categotiasUnica = res.data.map(item => item.categoria);
+            let categoriasUnica = []
+            categoriasUnica = res.data.map(item => item.categoria);
 
-            categotiasUnica = categotiasUnica.filter((itemArray, i, arrayCompleto) => {
+            categoriasUnica = categoriasUnica.filter((itemArray, i, arrayCompleto) => {
                 return arrayCompleto.indexOf(itemArray) === i;
             })
 
-            setCategorias(categotiasUnica);
+            setCategorias(categoriasUnica);
             setProdutos(res.data)
         }).catch(error => {
             console.log(error)
         })
-    }
-
-    useEffect(() => {
-        FiltrarEstabelecimento()
     }, [])
 
 

@@ -25,7 +25,7 @@ function produto(props) {
                         </small>
                     </div>
 
-                    <small className="d-block">
+                    <small className="d-block mb-2">
                         {props.qtd.toLocaleString('pt-BR', { minimumIntegerDigits: 2 })}
                         <span className="m-1">x</span>
                         {new Intl.NumberFormat('pr-BR', {
@@ -33,6 +33,14 @@ function produto(props) {
                             currency: 'BRL'
                         }).format(props.valor_unit)}
                     </small>
+
+                    {
+                        props.detalhes ? 
+                        props.detalhes.map(detalhe => {
+                            return <small className="text-secondary d-block">- {detalhe.nome}</small>
+                        })
+                        : null
+                    }
 
                     {
                         props.onClickRemover ?

@@ -11,12 +11,16 @@
 }
 
 .img-pedido{
-    max-width: 100%;
-    border-radius: 10%;
+    width: 80px;
+    border-radius: 8px;
 }
 
 .avaliacao span{
     color: black;
     font-size: 14px;
     padding: 4px;
+}
+
+.pedido-avaliar{
+    cursor: pointer;
 }

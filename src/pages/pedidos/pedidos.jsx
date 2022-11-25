@@ -5,10 +5,7 @@ import api from '../../services/api'
 import './styles.css';
 
 function Pedidos() {
-
-
     const [pedidos, setPedidos] = useState([]);
-
 
     function ListarPedidos(){
         api.get("http://localhost:8082/v1/pedidos")
@@ -38,7 +35,7 @@ function Pedidos() {
                       pedidos.map(pedido => {
                         return (
                             <Pedido 
-                            key={pedido}
+                            key={pedido.idPedido}
                             url_img={pedido.urlLogo}
                             avaliacao={pedido.avaliacao}
                             qtd_item={pedido.qtdItem}

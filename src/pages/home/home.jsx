@@ -58,9 +58,6 @@ export default function home() {
 
   }, [])
 
-  useEffect(() => {
-    console.log(grupos)
-  }, [grupos])
 
   return (
     <div className="container-fluid mt-page">

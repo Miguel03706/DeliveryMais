@@ -12,16 +12,19 @@ import { v4 as uuidv4 } from "uuid"
 
 export default function modal(props) {
 
-  const { cart, AddItemCart } = useContext(CartContext);
+  const { AddItemCart } = useContext(CartContext);
   const [nome, setNome] = useState('')
   const [descricao, setDescricao] = useState('')
   const [urlFoto, setUrlFoto] = useState('')
   const [idProduto, setIdProduto] = useState(0);
   const [vlProduto, setVlProduto] = useState(0)
   const [vlPromocao, setVlPromocao] = useState(0)
-  const [qtd, setQtd] = useState(1)
+  const [qtd, setQtd] = useState(0)
+
   const [opcoes, setOpcoes] = useState([])
   const [grupos, setGrupos] = useState([])
+  const [bloquearBtn, setBloquearBtn] = useState(true)
+  const [total, setTotal] = useState(0)
 
   function ClickMais() {
     setQtd(qtd + 1)
@@ -31,21 +34,99 @@ export default function modal(props) {
   }
 
   function AddItem() {
+    let detalhes = []
+    let vlDetalhes = 0
+
+    grupos.map(item => {
+      item.selecao.map(sel => {
+        vlDetalhes += sel.vlItem
+        detalhes.push({
+          nome: sel.nome,
+          idItem: sel.idItem,
+          vlItem: sel.vlItem,
+          ordem: sel.ordem,
+        })
+      })
+    })
+
     const item = {
       idCarrinho: uuidv4(),
       idProduto: idProduto,
       nome,
       descricao: nome,
       qtd,
-      vlUnit: vlPromocao > 0 ? vlPromocao : vlProduto,
-      vlTotal: (vlPromocao > 0 ? vlPromocao : vlProduto) * qtd,
+      vlUnit: vlDetalhes + (vlPromocao > 0 ? vlPromocao : vlProduto),
+      vlTotal: (vlDetalhes + (vlPromocao > 0 ? vlPromocao : vlProduto)) * qtd,
       urlFoto: urlFoto,
-      detalhes: []
+      detalhes: detalhes
     }
     AddItemCart(item)
     props.onRequestClose();
   }
 
+  function SelecionaRadioButton(op) {
+    let g = grupos;
+
+    //descrobrir o indice do grupo
+    let objIndex = g.findIndex(obj => obj.idOpcao == op.idOpcao);
+
+    //atualizar info daquele indice
+    g[objIndex].selecao = [op]
+
+    setGrupos(g)
+    HabilitaBotao(g)
+    CalculaTotal(g)
+  }
+
+  function SelecionaCheckBoxButton(isChecked, op) {
+    let g = grupos;
+    let s = [];
+
+    //achar o index
+    let objIndex = g.findIndex(obj => obj.idOpcao == op.idOpcao)
+
+    //capturar os itens selecionados
+    s = g[objIndex].selecao;
+
+    //inserir ou remover um item
+    if (isChecked) {
+      s.push(op)
+    } else {
+      let objIndexSel = s.findIndex(obj => obj.idItem == op.idItem)
+      s.splice(objIndexSel, 1)
+    }
+
+    g[objIndex].selecao = s;
+    setGrupos(g)
+    HabilitaBotao(g);
+    CalculaTotal(g)
+  }
+
+  function HabilitaBotao(grupo) {
+    let bloquear = false;
+
+    grupo.map(item => {
+      if (item.indObrigatorio == "S" && item.selecao.length == 0) {
+        bloquear = true
+      }
+    })
+
+    setBloquearBtn(bloquear);
+  }
+
+  function CalculaTotal(grupo) {
+    let vlSelecao = 0;
+    let vlProd = vlPromocao > 0 ? vlPromocao : vlProduto;
+
+    grupo.map(item => {
+      item.selecao.map(sel => {
+        vlSelecao += sel.vlItem;
+      });
+    });
+
+    setTotal((vlProd + vlSelecao) * qtd)
+
+  }
 
   useEffect(() => {
     if (props.idProduto <= 0) {
@@ -66,7 +147,7 @@ export default function modal(props) {
         console.log(error)
       })
 
-    api.get(`http://localhost:8082/v1/cardapios/opcoes/1`)
+    api.get(`http://localhost:8082/v1/cardapios/opcoes/${props.id_produto}`)
       .then(res => {
         setOpcoes(res.data);
 
@@ -89,9 +170,14 @@ export default function modal(props) {
           }) === index;
         })
         setGrupos(gruposUnico)
+        HabilitaBotao(gruposUnico);
       })
       .catch(error => console.log(error))
-  }, [props.id_produto])
+  }, [props.isOpen])
+
+  useEffect(() => {
+    CalculaTotal(grupos)
+  }, [qtd])
 
   return (
     <Modal isOpen={props.isOpen}
@@ -154,12 +240,14 @@ export default function modal(props) {
                     titulo={grupo.descricao}
                     obrigatorio={grupo.indObrigatorio == 'S' ? true : false}
                     opcoes={op}
+                    onClickItem={SelecionaRadioButton}
                   />
                   :
                   <ProdutoItemCheckBox
                     key={grupo.idOpcao}
                     titulo={grupo.descricao}
                     opcoes={op}
+                    onClickItem={SelecionaCheckBoxButton}
                   />
               })
             }
@@ -175,11 +263,11 @@ export default function modal(props) {
                 minimumIntegerDigits: 2
               })}</span>
               <button onClick={ClickMais} className="btn btn-outline-danger"><i className="fas fa-plus"></i></button>
-              <button onClick={AddItem} className="btn btn-danger ms-4">Adicionar a sacola (
+              <button onClick={AddItem} className="btn btn-danger ms-4" disabled={bloquearBtn}>Adicionar a sacola (
                 {new Intl.NumberFormat('pr-BR', {
                   style: 'currency',
                   currency: 'BRL'
-                }).format(vlPromocao > 0 ? vlPromocao * qtd : vlProduto * qtd)}
+                }).format(total)}
                 )
               </button>
             </div>

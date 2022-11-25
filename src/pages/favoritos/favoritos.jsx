@@ -45,6 +45,7 @@ export default function favoritos() {
                         favoritos.map(estabelecimento => {
                             return <Estabelecimento
                                 key={estabelecimento.idEstabelecimento}
+                                id_estabelecimento={estabelecimento.idEstabelecimento}
                                 url_img={estabelecimento.urlLogo}
                                 nome={estabelecimento.nome}
                                 avaliacao={estabelecimento.avaliacao}

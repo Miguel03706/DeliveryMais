@@ -29,6 +29,8 @@ function sidebar() {
     return (
         <Dock position="right"
             isVisible={show}
+            fluid={false}
+            size={420}
             onVisibleChange={(visible) => {
                 setShow(visible)
             }}>
@@ -55,6 +57,7 @@ function sidebar() {
                                         valor_unit={produtos.vlUnit}
                                         idCarrinho={produtos.idCarrinho}
                                         onClickRemover={RemoveItemCard}
+                                        detalhes={produtos.detalhes}
                                     />
                                 )
                             })
