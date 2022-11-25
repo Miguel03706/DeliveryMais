@@ -75,7 +75,7 @@ function cardapio() {
 
     function openModalProduto(id_prod) {
 
-        if (cart.length > 0 && idEstabelecimentoCart != id && idEstabelecimentoCart > 0){
+        if (cart.length > 0 && idEstabelecimentoCart !== id && idEstabelecimentoCart > 0){
             alert('Já existem produtos de outros estabelecimentos')
             return
         }

@@ -2,7 +2,6 @@ import React, { useState, useEffect} from 'react';
 import Navbar from '../../components/navbar'
 import Pedido from '../../components/pedido'
 import api from '../../services/api'
-import './styles.css';
 
 function Pedidos() {
     const [pedidos, setPedidos] = useState([]);

@@ -2,7 +2,6 @@ import React from 'react';
 
 function produto(props) {
 
-
     return (
         <div className="col-12">
             <div className="row p-3 ps-0 border-bottom">

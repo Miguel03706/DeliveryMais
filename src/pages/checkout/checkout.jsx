@@ -5,7 +5,6 @@ import Navbar from '../../components/navbar'
 import { CartContext } from '../../contexts/cart';
 import Produto from '../../components/produto'
 import api from '../../services/api';
-import './styles.css'
 import { useNavigate } from 'react-router-dom';
 
 function checkout() {

@@ -36,7 +36,7 @@ function CartProvider(props) {
 
     function RemoveItemCard(id) {
         const novoCart = cart.filter((item, index, arr) => {
-            return item.idCarrinho != id
+            return item.idCarrinho !== id
         });
         setCart(novoCart)
         SalvarCart(novoCart)
